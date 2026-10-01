@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#8a5a2b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="马匹计时">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="stylesheet" href="css/app.css">
+  <title>马匹计时</title>
+</head>
+<body>
+  <header class="topbar no-print"><h1>马匹计时</h1></header>
+
+  <main>
+    <!-- 计时 -->
+    <section id="view-timer" class="view">
+      <div id="active-list"></div>
+    </section>
+
+    <!-- 新开单 -->
+    <section id="view-new" class="view" hidden>
+      <form id="new-form" novalidate>
+        <label class="field">
+          <span>客人备注</span>
+          <input id="f-note" maxlength="40" placeholder="如：张三一行（可不填）" autocomplete="off">
+        </label>
+        <label class="field">
+          <span>预付小时</span>
+          <input id="f-hours" inputmode="decimal" autocomplete="off">
+        </label>
+
+        <fieldset class="panel">
+          <legend>马匹（每匹可单独定价）</legend>
+          <div class="quick">
+            <input id="q-count" inputmode="numeric" value="1" aria-label="匹数">
+            <span>匹 × ¥</span>
+            <input id="q-price" inputmode="decimal" placeholder="单价" aria-label="每小时单价">
+            <span>/时</span>
+            <button type="button" id="q-add" class="btn">添加</button>
+          </div>
+          <div id="horse-rows"></div>
+          <button type="button" id="add-one" class="btn ghost wide">+ 再加一匹</button>
+        </fieldset>
+
+        <div id="new-summary" class="summary"></div>
+        <p id="new-error" class="error" role="alert"></p>
+        <button type="submit" id="new-submit" class="btn primary big wide">收款并开始计时</button>
+      </form>
+    </section>
+
+    <!-- 账本 -->
+    <section id="view-ledger" class="view" hidden>
+      <div class="ledger-controls no-print">
+        <div class="seg" role="group" aria-label="报表类型">
+          <button type="button" data-mode="day">按日</button>
+          <button type="button" data-mode="month">按月</button>
+        </div>
+        <div class="picker">
+          <button type="button" id="prev" class="icon-btn" aria-label="上一个">‹</button>
+          <input type="date" id="pick-day" aria-label="选择日期">
+          <input type="month" id="pick-month" aria-label="选择月份">
+          <button type="button" id="next" class="icon-btn" aria-label="下一个">›</button>
+        </div>
+      </div>
+      <div id="backup-tip" class="no-print"></div>
+      <div id="report"></div>
+      <div class="ledger-actions no-print">
+        <button type="button" id="print" class="btn primary big wide">打印 / 导出 PDF</button>
+        <p class="hint">打印界面里选择“存储为 PDF”或“另存为 PDF”即可得到 PDF 文件。</p>
+        <div class="row">
+          <button type="button" id="backup" class="btn">备份数据</button>
+          <button type="button" id="restore" class="btn">恢复数据</button>
+        </div>
+        <input type="file" id="restore-file" accept="application/json,.json" hidden>
+        <p class="hint">数据只保存在这台手机上。请定期备份，把备份文件发到微信或网盘保存。</p>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar no-print">
+    <button type="button" data-tab="timer">计时<span id="active-badge" class="badge" hidden></span></button>
+    <button type="button" data-tab="new">新开单</button>
+    <button type="button" data-tab="ledger">账本</button>
+  </nav>
+
+  <div id="modal" class="modal no-print" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div id="modal-body"></div>
+      <div class="row">
+        <button type="button" id="modal-back" class="btn big">继续计时</button>
+        <button type="button" id="modal-ok" class="btn primary big">确认结算</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast no-print" role="status" hidden></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
