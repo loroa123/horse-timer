@@ -4,6 +4,10 @@
   "type": "module",
   "scripts": {
     "test": "node --test",
-    "start": "python3 -m http.server 8080"
+    "start": "python3 -m http.server 8080",
+    "e2e": "node e2e/run.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^23.11.1"
   }
 }
